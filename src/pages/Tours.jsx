@@ -1,41 +1,39 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import connectionUrl from "./url.jsx";
+function Tours() {
+  const [places, setPlaces] = useState([]);
 
-export default function Tours() {
-  const tourPlaces = [
-    {
-      place: "Hill Station Adventure",
-      price: "4,999",
-      path: "/tours/1",
-    },
-    {
-      place: "Beach Paradise",
-      price: "3,999",
-      path: "/tours/2",
-    },
-    {
-      place: "Wildlife Safari",
-      price: "5,999",
-      path: "/tours/3",
-    },
-  ];
+  useEffect(() => {
+    axios.get(`${connectionUrl}/api/places`).then((res) => {
+      setPlaces(res.data);
+    });
+  }, []);
+
   return (
     <div className="container">
-      <h1>Our Tours</h1>
+      <h1>Jourfly – Local Tourism</h1>
+
       <div className="grid">
-        {tourPlaces.length === 0 ? (
-          <p>No tours available</p>
-        ) : (
-          tourPlaces.map((place) => (
-            <div className="card" key={place.id}>
-              <h3>{place.place}</h3>
-              <p>Starts from ₹{place.price}</p>
-              <Link to={place.path} className="btn">
-                View Details
-              </Link>
-            </div>
-          ))
-        )}
+        {places.map((place) => (
+          <div className="card" key={place._id}>
+            <img className="card-img" src={place.image} alt="" />
+            <h3>{place.name}</h3>
+            <p>
+              <b>Category:</b> {place.category}
+            </p>
+            <p>
+              <b>Location:</b> {place.location}
+            </p>
+            <p>
+              <b>Type:</b> {place.type}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
+
+export default Tours;

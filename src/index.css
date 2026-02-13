@@ -8,7 +8,12 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 15px 30px;
-  background: #0e4ee2;
+  background: #1e88e5;
+}
+
+.nav h2 img {
+  height: 100px;
+  width: 100px;
 }
 
 .nav a {
@@ -38,12 +43,40 @@ body {
   gap: 20px;
   margin-top: 20px;
 }
+/* .grid img {
+  padding-left: 150px;
+} */
+.text {
+  word-spacing: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vision-and-mission {
+  text-align: center;
+}
 
 .card {
-  background: white;
+  background: lightblue;
   padding: 20px;
   border-radius: 10px;
 }
+
+.card:hover {
+  transform: translateX(-8px);
+  transform: translateY(-15px);
+}
+
+.card img {
+  height: 200px;
+  width: 200px;
+}
+/* .card-img {
+  height: 100px;
+  width: 100px;
+  padding-left: 0px;
+} */
 
 .btn {
   display: inline-block;

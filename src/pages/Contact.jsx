@@ -1,7 +1,9 @@
+import BookingForm from "./BookingForm";
+
 export default function Contact() {
   return (
     <div className="container">
-      <h1>Contact Us</h1>
+      {/* <h1>Contact Us</h1>
 
       <p>📞 Phone: +91 93844 70778</p>
       <p>📧 Email: jourflys@gmail.com</p>
@@ -15,7 +17,10 @@ export default function Contact() {
         className="btn green"
       >
         WhatsApp
-      </a>
+      </a> */}
+      <div>
+        <BookingForm />
+      </div>
     </div>
   );
 }
