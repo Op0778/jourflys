@@ -1,21 +1,159 @@
 import express from "express";
 import cors from "cors";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import Booking from "./models/Booking.js";
+import User from "./models/User.js";
 import nodemailer from "nodemailer";
 import Place from "./models/Place.js";
+import connectionUrl from "../pages/url.jsx";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect(
-    "mongodb+srv://omprakash:opMdu020@cluster0.txpzw.mongodb.net/tourism?retryWrites=true&w=majority",
-  )
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log("MongoDB Error : ", err));
 
+//  register
+app.post("/api/register", async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+
+    const existing = await User.findOne({ email });
+    if (existing) return res.status(400).json({ error: "Email already used" });
+
+    const hash = await bcrypt.hash(password, process.env.SALT_ROUNDS);
+
+    const user = new User({
+      username,
+      email,
+      password: hash,
+    });
+
+    await user.save();
+
+    const verificationToken = jwt.sign(
+      { id: user._id },
+      process.env.EMAIL_SECRET_CODE,
+      {
+        expiresIn: "1d",
+      },
+    );
+
+    const verificationLink = `${connectionUrl}/api/verify/${verificationToken}`;
+
+    //  Send Email
+    await transporter.sendMail({
+      from: process.env.ADMIN_EMAIL,
+      to: email,
+      subject: "Verify Your Email",
+      html: `
+        <h2>Email Verification</h2>
+        <p>Click below to verify your email:</p>
+        <a href="${verificationLink}">Verify Email</a>
+      `,
+    });
+
+    res.status(201).json({
+      message: "Registered successfully. Please verify your email.",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// mail verification send
+app.get("/api/verify/:token", async (req, res) => {
+  try {
+    const decoded = jwt.verify(req.params.token, process.env.EMAIL_SECRET_CODE);
+
+    await User.findByIdAndUpdate(decoded.id, {
+      isVerified: true,
+    });
+
+    res.send("✅ Email verified successfully. You can now login.");
+  } catch (err) {
+    res.status(400).send("❌ Invalid or expired token.");
+  }
+});
+
+// login
+app.post("/api/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user.isVerified)
+      return res.status(401).json({
+        error: "Please verify your email first",
+      });
+
+    if (!user) return res.status(400).json({ error: "Invalid credentials" });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ error: "Invalid credentials" });
+
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.SECRET_CODE,
+      {
+        expiresIn: "1h",
+      },
+    );
+
+    res.status(200).json({
+      token,
+      user: {
+        _id: user._id,
+        role: user.role,
+      },
+    });
+  } catch (err) {
+    console.error("Login Error:", err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+//user feedback
+app.patch("/api/feedback", async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) return res.status(401).json({ error: "No token provided" });
+
+    const decoded = jwt.verify(token, process.env.SECRET_CODE);
+
+    const { message, rating } = req.body;
+
+    if (!message || !rating)
+      return res.status(400).json({ error: "All fields required" });
+
+    await User.findByIdAndUpdate(
+      decoded.id,
+      {
+        $push: {
+          feedbacks: { message, rating },
+        },
+      },
+      { new: true },
+    );
+
+    res.status(200).json({ message: "Feedback added successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// get all places
 app.get("/api/places", async (req, res) => {
   try {
     const places = await Place.find();
@@ -25,15 +163,18 @@ app.get("/api/places", async (req, res) => {
   }
 });
 
+//create email transport
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: "omprakash19092005@gmail.com", // ✅ your REAL Gmail process.env.EMAIL_USER
-    pass: "ebvtnqnfsblmqvee", // ✅ 16-digit Gmail App Password  process.env.EMAIL_PASS
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
-// Optional: verify config once
+// verify config
 transporter.verify((error, success) => {
   if (error) {
     console.log("❌ Email config error:", error);
@@ -48,8 +189,8 @@ app.post("/api/book", async (req, res) => {
     await booking.save();
 
     await transporter.sendMail({
-      from: `"Tour Booking" <omprakash19092005@gmail.com>`, // must match user  process.env.EMAIL_USER
-      to: "jourflys@gmail.com", // admin email process.env.ADMIN_EMAIL
+      from: `Tour Booking <${process.env.EMAIL_USER}>`,
+      to: process.env.ADMIN_EMAIL,
       subject: "New Tour Booking Received 🚀",
       html: `
         <h2>New Booking</h2>
@@ -74,7 +215,7 @@ app.post("/api/book", async (req, res) => {
   }
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`server running on http://localhost:${PORT}`);
 });

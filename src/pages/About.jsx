@@ -43,7 +43,7 @@ export default function About() {
       </div>
 
       <div className="grid">
-        <p className="card">
+        <div className="card">
           <div className="hero">
             To organize and operate a minimum of 7 successful trips, ensuring
             quality service in every journey.
@@ -68,7 +68,7 @@ export default function About() {
             To provide flexible packages based on customer needs while ensuring
             operational feasibility and quality delivery.
           </div>
-        </p>
+        </div>
         <h1 className="vision-and-mission">Mission</h1>
       </div>
 

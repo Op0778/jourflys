@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import connectionUrl from "./url";
+import "../styles/formStyle.css";
 
 const BookingForm = () => {
   const [formData, setFormData] = useState({
@@ -51,10 +52,10 @@ const BookingForm = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.title}>Book Your Trip ✈️</h2>
+    <div className="container-form">
+      <h2 className="title-form">Book Your Trip ✈️</h2>
 
-      <form onSubmit={handleSubmit} style={styles.form}>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="name"
@@ -62,7 +63,6 @@ const BookingForm = () => {
           value={formData.name}
           onChange={handleChange}
           required
-          style={styles.input}
         />
 
         <input
@@ -72,7 +72,6 @@ const BookingForm = () => {
           value={formData.email}
           onChange={handleChange}
           required
-          style={styles.input}
         />
 
         <input
@@ -82,7 +81,6 @@ const BookingForm = () => {
           value={formData.phone}
           onChange={handleChange}
           required
-          style={styles.input}
         />
 
         <input
@@ -92,7 +90,6 @@ const BookingForm = () => {
           value={formData.place}
           onChange={handleChange}
           required
-          style={styles.input}
         />
 
         <input
@@ -101,58 +98,57 @@ const BookingForm = () => {
           value={formData.date}
           onChange={handleChange}
           required
-          style={styles.input}
         />
 
-        <button type="submit" disabled={loading} style={styles.button}>
+        <button type="submit" disabled={loading} className="button-form">
           {loading ? "Booking..." : "Book Now"}
         </button>
       </form>
 
-      {message && <p style={styles.message}>{message}</p>}
+      {message && <p className="message-form">{message}</p>}
     </div>
   );
 };
 
-const styles = {
-  container: {
-    maxWidth: "420px",
-    margin: "40px auto",
-    padding: "24px",
-    borderRadius: "12px",
-    background: "#ffffff",
-    boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
-  },
-  title: {
-    textAlign: "center",
-    marginBottom: "16px",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "12px",
-  },
-  input: {
-    padding: "12px",
-    borderRadius: "8px",
-    border: "1px solid #ddd",
-    outline: "none",
-    fontSize: "14px",
-  },
-  button: {
-    padding: "12px",
-    borderRadius: "8px",
-    border: "none",
-    background: "#1E88E5",
-    color: "#fff",
-    fontWeight: "600",
-    cursor: "pointer",
-  },
-  message: {
-    textAlign: "center",
-    marginTop: "12px",
-    color: "#2E7D32",
-  },
-};
+// const styles = {
+//   container: {
+//     maxWidth: "420px",
+//     margin: "40px auto",
+//     padding: "24px",
+//     borderRadius: "12px",
+//     background: "#ffffff",
+//     boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+//   },
+//   title: {
+//     textAlign: "center",
+//     marginBottom: "16px",
+//   },
+//   form: {
+//     display: "flex",
+//     flexDirection: "column",
+//     gap: "12px",
+//   },
+//   input: {
+//     padding: "12px",
+//     borderRadius: "8px",
+//     border: "1px solid #ddd",
+//     outline: "none",
+//     fontSize: "14px",
+//   },
+//   button: {
+//     padding: "12px",
+//     borderRadius: "8px",
+//     border: "none",
+//     background: "#1E88E5",
+//     color: "#fff",
+//     fontWeight: "600",
+//     cursor: "pointer",
+//   },
+//   message: {
+//     textAlign: "center",
+//     marginTop: "12px",
+//     color: "#2E7D32",
+//   },
+// };
 
 export default BookingForm;
