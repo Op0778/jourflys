@@ -214,6 +214,22 @@ app.post("/api/book", async (req, res) => {
   }
 });
 
+app.get("/test-email", async (req, res) => {
+  try {
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
+      subject: "Test Email",
+      text: "Email working successfully",
+    });
+
+    res.send("Email sent successfully");
+  } catch (error) {
+    console.log("Email error:", error);
+    res.send("Email failed");
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`server running on http://localhost:${PORT}`);
