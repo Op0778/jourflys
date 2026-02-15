@@ -25,47 +25,18 @@ app.post("/api/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
+    // check existing
     const existing = await User.findOne({ email });
     if (existing) return res.status(400).json({ error: "Email already used" });
 
-    const hash = await bcrypt.hash(password, process.env.SALT_ROUNDS);
+    const hash = await bcrypt.hash(password, 10);
 
-    const user = new User({
-      username,
-      email,
-      password: hash,
-    });
-
+    const user = new User({ username, email, password: hash });
     await user.save();
 
-    const verificationToken = jwt.sign(
-      { id: user._id },
-      process.env.EMAIL_SECRET_CODE,
-      {
-        expiresIn: "1d",
-      },
-    );
-
-    const verificationLink = `https://jourflys.onrender.com/api/verify/${verificationToken}`;
-
-    //  Send Email
-    await transporter.sendMail({
-      from: process.env.ADMIN_EMAIL,
-      to: email,
-      subject: "Verify Your Email",
-      html: `
-        <h2>Email Verification</h2>
-        <p>Click below to verify your email:</p>
-        <a href="${verificationLink}">Verify Email</a>
-      `,
-    });
-
-    res.status(201).json({
-      message: "Registered successfully. Please verify your email.",
-    });
+    res.json({ message: "User registered successfully" });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json(err, { error: "Server error" });
   }
 });
 
