@@ -61,10 +61,10 @@ app.post("/api/login", async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    if (!user.isVerified)
-      return res.status(401).json({
-        error: "Please verify your email first",
-      });
+    // if (!user.isVerified)
+    //   return res.status(401).json({
+    //     error: "Please verify your email first",
+    //   });
 
     if (!user) return res.status(400).json({ error: "Invalid credentials" });
 
