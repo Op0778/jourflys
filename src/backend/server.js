@@ -7,7 +7,6 @@ import Booking from "./models/Booking.js";
 import User from "./models/User.js";
 import nodemailer from "nodemailer";
 import Place from "./models/Place.js";
-import connectionUrl from "../pages/url.jsx";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -47,7 +46,7 @@ app.post("/api/register", async (req, res) => {
       },
     );
 
-    const verificationLink = `${connectionUrl}/api/verify/${verificationToken}`;
+    const verificationLink = `https://jourflys.onrender.com/api/verify/${verificationToken}`;
 
     //  Send Email
     await transporter.sendMail({
