@@ -26,6 +26,11 @@ body {
   align-items: center;
   justify-content: space-between;
 }
+.hamburger {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+}
 
 .container {
   padding: 40px;
@@ -55,6 +60,9 @@ body {
 
 .vision-and-mission {
   text-align: center;
+}
+.mobile-mission {
+  display: none;
 }
 
 .card {
@@ -90,4 +98,38 @@ body {
 
 .btn.green {
   background: #16a34a;
+}
+
+/* 🔥 Mobile Responsive */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .navList {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    background: #1e88e5;
+    flex-direction: column;
+    gap: 10px;
+    width: 200px;
+    padding: 20px;
+    display: none;
+  }
+
+  .navList.active {
+    display: flex;
+  }
+
+  .mobile-mission {
+    display: block;
+  }
+
+  .desktop-mission {
+    display: none;
+  }
 }

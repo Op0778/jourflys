@@ -1,26 +1,28 @@
-import BookingForm from "./BookingForm";
+import { useState } from "react";
 
 export default function Contact() {
+  const [showNumber, setShowNumber] = useState(false);
+
   return (
-    <div className="container">
-      {/* <h1>Contact Us</h1>
+    <div className="container-form">
+      <h1>Contact Us</h1>
 
-      <p>📞 Phone: +91 93844 70778</p>
-      <p>📧 Email: jourflys@gmail.com</p>
+      {!showNumber ? (
+        <button className="btn" onClick={() => setShowNumber(true)}>
+          Show Phone Number
+        </button>
+      ) : (
+        <p>📞 +91 93844 70778</p>
+      )}
 
-      <a href="tel:+919384470778" className="btn">
-        Call Now
-      </a>
       <a
         href="https://wa.me/919384470778"
         target="_blank"
+        rel="noopener noreferrer"
         className="btn green"
       >
         WhatsApp
-      </a> */}
-      <div>
-        <BookingForm />
-      </div>
+      </a>
     </div>
   );
 }

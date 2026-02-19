@@ -43,6 +43,7 @@ export default function About() {
       </div>
 
       <div className="grid">
+        <h1 className="vision-and-mission mobile-mission">Mission</h1>
         <div className="card">
           <div className="hero">
             To organize and operate a minimum of 7 successful trips, ensuring
@@ -69,20 +70,25 @@ export default function About() {
             operational feasibility and quality delivery.
           </div>
         </div>
-        <h1 className="vision-and-mission">Mission</h1>
+        <h1 className="vision-and-mission desktop-mission">Mission</h1>
       </div>
 
-      <div className="grid">
-        {teamMembers.length === 0 ? (
-          <p>Not available</p>
-        ) : (
-          teamMembers.map((team) => (
-            <div className="card" key={team.id}>
-              <img src={team.photo} alt="image" />
-              <p>{team.intro}</p>
-            </div>
-          ))
-        )}
+      <div>
+        <h1>Our Team Members</h1>
+
+        <div className="grid">
+          {teamMembers.length === 0 ? (
+            <p>Not available</p>
+          ) : (
+            teamMembers.map((team) => (
+              <div className="card" key={team.id}>
+                <img src={team.photo} alt={team.name} />
+                <h3>{team.name}</h3>
+                <p>{team.intro}</p>
+              </div>
+            ))
+          )}
+        </div>
       </div>
 
       <h3>Why Choose Us?</h3>
