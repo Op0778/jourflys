@@ -2,8 +2,10 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import connectionUrl from "./url.jsx";
+import { useNavigate } from "react-router-dom";
 function Tours() {
   const [places, setPlaces] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`${connectionUrl}/api/places`).then((res) => {
@@ -17,9 +19,13 @@ function Tours() {
 
       <div className="grid">
         {places.map((place) => (
-          <div className="card" key={place._id}>
-            <img className="card-img" src={place.image} alt="" />
+          <div
+            className="card"
+            key={place._id}
+            onClick={() => navigate(`/tours/${place._id}`)}
+          >
             <h3>{place.name}</h3>
+            <img className="card-img" src={place.image} alt="" />
             <p>
               <b>Category:</b> {place.category}
             </p>

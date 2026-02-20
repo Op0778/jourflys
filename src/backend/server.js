@@ -133,6 +133,23 @@ app.get("/api/places", async (req, res) => {
   }
 });
 
+app.get("/api/place/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid Place ID" });
+    }
+
+    const place = await Place.findById(id);
+    if (!place) return res.status(404).json({ message: "place not found" });
+
+    res.json(place);
+  } catch (err) {
+    console.error("place fetch error:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 //create email transport
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
