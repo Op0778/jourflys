@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import "../styles/formStyle.css";
 const Contact = () => {
-  const apiUrl = import.meta.env.ACCESS_KEY;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     place: "",
     date: "",
-    access_key: apiUrl,
+    access_key: "cdad100e-d388-426a-bea6-e5ad1184a8b8",
   });
 
   const [result, setResult] = useState("");
@@ -48,7 +47,7 @@ const Contact = () => {
         phone: "",
         place: "",
         date: "",
-        access_key: apiUrl,
+        access_key: "cdad100e-d388-426a-bea6-e5ad1184a8b8",
       });
 
       setTimeout(() => {
