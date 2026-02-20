@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import "../styles/formStyle.css";
 const Contact = () => {
+  const apiUrl = import.meta.env.ACCESS_KEY;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     place: "",
     date: "",
-    access_key: "cdad100e-d388-426a-bea6-e5ad1184a8b8",
+    access_key: apiUrl,
   });
 
   const [result, setResult] = useState("");
@@ -47,7 +48,7 @@ const Contact = () => {
         phone: "",
         place: "",
         date: "",
-        access_key: "cdad100e-d388-426a-bea6-e5ad1184a8b8",
+        access_key: apiUrl,
       });
 
       setTimeout(() => {
@@ -61,7 +62,7 @@ const Contact = () => {
 
   return (
     <div className="container-form">
-      <h2 className="title-form">Book Your Trip ✈️</h2>
+      <h2 className="title-form">Book Your Trip </h2>
 
       <form onSubmit={handleSubmit}>
         <input
@@ -94,7 +95,7 @@ const Contact = () => {
         <input
           type="text"
           name="place"
-          placeholder="Destination"
+          placeholder="Your Location"
           value={formData.place}
           onChange={handleChange}
           required
@@ -111,8 +112,6 @@ const Contact = () => {
         <input type="submit" value="Submit" />
         <p>{result}</p>
       </form>
-
-      {/* {message && <p className="message-form">{message}</p>} */}
     </div>
   );
 };
