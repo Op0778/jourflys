@@ -1,4 +1,5 @@
 import { useState } from "react";
+import BookForm from "./BookForm";
 
 export default function Contact() {
   const [showNumber, setShowNumber] = useState(false);
@@ -23,6 +24,7 @@ export default function Contact() {
       >
         WhatsApp
       </a>
+      <BookForm />
     </div>
   );
 }
