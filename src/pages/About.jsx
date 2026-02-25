@@ -2,19 +2,25 @@ import logo from "../assets/logo.png";
 export default function About() {
   const teamMembers = [
     {
+      name: "Loga Kumaresan R",
       intro:
         "Loga Kumaresan R is a B.E. CSE Graduate from Anna University and a Certified Walk Tour Facilitator (NSQF Level 4) recognized by NCVET. Trained under PMKVY 4.0 through THSC, he combines technical expertise with tourism skills. He Intrested & Specializes in Organizing Safe, Engaging, and Customer-Focused Walk Tours that Promote Local Culture and Heritage.",
       photo: "https://i.ibb.co/HfMJxphF/logu-removebg-preview.png",
+      link: "https://port-two-pi-77.vercel.app/",
     },
     {
+      name: "Bharath Kumar S",
       intro:
         "Bharath Kumar S is a BE Computer Science graduate from Anna University and a Certified Walk Tour Facilitator (NSQF Level 4) recognized by NCVET. Trained under PMKVY 4.0 through THSC, he combines technical expertise with tourism skills. He specializes in organizing safe, engaging, and customer-focused walk tours that promote local culture and heritage.",
       photo: "https://i.ibb.co/dsGRLdjV/bharat-removebg-preview.png",
+      link: "https://blazing-phoenixes.netlify.app/",
     },
     {
+      name: "Omprakash L.K",
       intro:
         "Omprakash L.K is a BE Computer Science graduate from Anna University and a Certified Walk Tour Facilitator (NSQF Level 4) recognized by NCVET. Trained under PMKVY 4.0 through THSC, he combines technical expertise with tourism skills. He specializes in organizing safe, engaging, and customer-focused walk tours that promote local culture and heritage.",
       photo: "https://i.ibb.co/35N6gy0b/om-removebg-preview.png",
+      link: "https://port-six-umber.vercel.app/",
     },
   ];
 
@@ -82,9 +88,16 @@ export default function About() {
           ) : (
             teamMembers.map((team) => (
               <div className="card" key={team.id}>
+                <h3 className="profile-name">{team.name}</h3>
                 <img src={team.photo} alt={team.name} />
-                <h3>{team.name}</h3>
+
                 <p>{team.intro}</p>
+                <button
+                  className="btn"
+                  onClick={() => window.open(team.link, "_blank")}
+                >
+                  View Profile
+                </button>
               </div>
             ))
           )}

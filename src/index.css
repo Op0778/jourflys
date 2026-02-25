@@ -32,6 +32,10 @@ body {
   cursor: pointer;
 }
 
+.profile-name {
+  text-align: center;
+}
+
 .container {
   padding: 40px;
 }
